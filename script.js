@@ -1,75 +1,103 @@
 /* ═══════════════════════════════════════════
-   PORTFOLIO – Main Script
+   PORTFOLIO – Main Script (Performance Optimised)
    ═══════════════════════════════════════════ */
+
+/* ── Inject keyframes ── */
+const styleEl = document.createElement('style');
+styleEl.textContent = `
+  @keyframes fadeInUp {
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  @keyframes lightboxFadeIn {
+    from { opacity:0; transform:scale(0.95); }
+    to   { opacity:1; transform:scale(1); }
+  }
+`;
+document.head.appendChild(styleEl);
+
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── Navbar scroll effect ── */
-  const navbar = document.getElementById('navbar');
+  /* ════════════════════════════════════════════
+     1. NAVBAR + BACK-TO-TOP (passive scroll)
+     ════════════════════════════════════════════ */
+  const navbar    = document.getElementById('navbar');
   const backToTop = document.getElementById('back-to-top');
 
+  let ticking = false;
   window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    navbar.classList.toggle('scrolled', y > 50);
-    backToTop.classList.toggle('visible', y > 600);
-  });
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        navbar.classList.toggle('scrolled', y > 50);
+        backToTop.classList.toggle('visible', y > 600);
+        updateActiveLink();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
 
-  /* ── Mobile menu toggle ── */
+  backToTop.addEventListener('click', () =>
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  );
+
+  /* ════════════════════════════════════════════
+     2. MOBILE MENU
+     ════════════════════════════════════════════ */
   const navToggle = document.getElementById('nav-toggle');
-  const navLinks = document.getElementById('nav-links');
+  const navLinks  = document.getElementById('nav-links');
 
   navToggle.addEventListener('click', () => {
     navToggle.classList.toggle('open');
     navLinks.classList.toggle('open');
   });
 
-  // Close mobile menu on link click
-  navLinks.querySelectorAll('.nav-link').forEach(link => {
+  navLinks.querySelectorAll('.nav-link').forEach(link =>
     link.addEventListener('click', () => {
       navToggle.classList.remove('open');
       navLinks.classList.remove('open');
-    });
-  });
+    })
+  );
 
-  /* ── Active nav link on scroll ── */
-  const sections = document.querySelectorAll('section[id]');
-  const navLinkEls = document.querySelectorAll('.nav-link');
+  /* ════════════════════════════════════════════
+     3. ACTIVE NAV LINK
+     ════════════════════════════════════════════ */
+  const sections    = document.querySelectorAll('section[id]');
+  const navLinkEls  = document.querySelectorAll('.nav-link');
 
-  const updateActiveLink = () => {
+  function updateActiveLink() {
     const scrollPos = window.scrollY + 120;
     sections.forEach(section => {
-      const top = section.offsetTop;
+      const top    = section.offsetTop;
       const height = section.offsetHeight;
-      const id = section.getAttribute('id');
+      const id     = section.getAttribute('id');
       if (scrollPos >= top && scrollPos < top + height) {
         navLinkEls.forEach(l => l.classList.remove('active'));
         const active = document.querySelector(`.nav-link[data-section="${id}"]`);
         if (active) active.classList.add('active');
       }
     });
-  };
-  window.addEventListener('scroll', updateActiveLink);
+  }
 
-  /* ── Back to top ── */
-  backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  /* ── Scroll animations (Intersection Observer) ── */
-  const animatedEls = document.querySelectorAll('.animate-on-scroll');
-  const observer = new IntersectionObserver((entries) => {
+  /* ════════════════════════════════════════════
+     4. SCROLL-IN ANIMATIONS (Intersection Observer)
+     ════════════════════════════════════════════ */
+  const animObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
-        // Stagger children slightly
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-        observer.unobserve(entry.target);
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        animObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-  animatedEls.forEach(el => observer.observe(el));
+  document.querySelectorAll('.animate-on-scroll').forEach(el => animObserver.observe(el));
 
-  /* ── Project filter ── */
-  const filterBtns = document.querySelectorAll('.filter-btn');
+  /* ════════════════════════════════════════════
+     5. PROJECT FILTER
+     ════════════════════════════════════════════ */
+  const filterBtns   = document.querySelectorAll('.filter-btn');
   const projectCards = document.querySelectorAll('.project-card');
 
   filterBtns.forEach(btn => {
@@ -78,12 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.add('active');
 
       const filter = btn.getAttribute('data-filter');
-
       projectCards.forEach(card => {
-        const category = card.getAttribute('data-category');
-        if (filter === 'all' || category === filter) {
+        const cat = card.getAttribute('data-category');
+        if (filter === 'all' || cat === filter) {
           card.classList.remove('hidden');
-          card.style.animation = 'fadeInUp 0.45s ease forwards';
+          card.style.animation = 'fadeInUp 0.4s ease forwards';
         } else {
           card.classList.add('hidden');
         }
@@ -91,127 +118,198 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ── Image Carousels ── */
-  document.querySelectorAll('.carousel').forEach(carousel => {
-    const track = carousel.querySelector('.carousel-track');
-    const images = track.querySelectorAll('.project-img');
-    const dotsContainer = carousel.querySelector('.carousel-dots');
-    const prevBtn = carousel.querySelector('.carousel-prev');
-    const nextBtn = carousel.querySelector('.carousel-next');
+  /* ════════════════════════════════════════════
+     6. LAZY-LOADING CAROUSEL
+     — Images stored in data-images / data-alts
+     — Only the first image loads immediately.
+     — Remaining images are injected as <img>
+       elements with loading="lazy" when the
+       carousel is first interacted with OR when
+       it enters the viewport.
+     ════════════════════════════════════════════ */
 
-    if (images.length <= 1) return; // No carousel needed for single image
+  function buildCarousel(carousel) {
+    const track    = carousel.querySelector('.carousel-track');
+    const dotsEl   = carousel.querySelector('.carousel-dots');
+    const prevBtn  = carousel.querySelector('.carousel-prev');
+    const nextBtn  = carousel.querySelector('.carousel-next');
 
-    let current = 0;
+    let images, alts;
+    try {
+      images = JSON.parse(carousel.dataset.images || '[]');
+      alts   = JSON.parse(carousel.dataset.alts   || '[]');
+    } catch { images = []; alts = []; }
 
-    // Create dots
+    if (!images.length) return;
+
+    let current      = 0;
+    let fullyLoaded  = false;
+
+    /* Build first slide immediately */
+    const firstImg = document.createElement('img');
+    firstImg.src             = images[0];
+    firstImg.alt             = alts[0] || '';
+    firstImg.className       = 'project-img';
+    firstImg.decoding        = 'async';
+    firstImg.style.cursor    = 'pointer';
+    track.appendChild(firstImg);
+
+    /* Lazy-load remaining slides */
+    function loadAllSlides() {
+      if (fullyLoaded) return;
+      fullyLoaded = true;
+      for (let i = 1; i < images.length; i++) {
+        const img        = document.createElement('img');
+        img.src          = images[i];
+        img.alt          = alts[i] || '';
+        img.className    = 'project-img';
+        img.loading      = 'lazy';
+        img.decoding     = 'async';
+        img.style.cursor = 'pointer';
+        track.appendChild(img);
+      }
+      bindLightboxToImages();
+    }
+
+    /* Single-image – no controls needed */
+    if (images.length === 1) {
+      bindLightboxToImages();
+      return;
+    }
+
+    /* Build dots */
     images.forEach((_, i) => {
       const dot = document.createElement('button');
-      dot.classList.add('carousel-dot');
-      if (i === 0) dot.classList.add('active');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', `Slide ${i + 1}`);
       dot.addEventListener('click', () => goTo(i));
-      dotsContainer.appendChild(dot);
+      dotsEl.appendChild(dot);
     });
 
     function goTo(index) {
-      current = index;
-      track.style.transform = `translateX(-${current * 100}%)`;
-      const dots = dotsContainer.querySelectorAll('.carousel-dot');
-      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+      current = (index + images.length) % images.length;
+      /* GPU-accelerated translate — no layout reflow */
+      track.style.transform = `translate3d(-${current * 100}%,0,0)`;
+      dotsEl.querySelectorAll('.carousel-dot').forEach((d, i) =>
+        d.classList.toggle('active', i === current)
+      );
     }
 
-    prevBtn.addEventListener('click', (e) => {
+    prevBtn.addEventListener('click', e => {
       e.stopPropagation();
-      goTo(current <= 0 ? images.length - 1 : current - 1);
+      loadAllSlides();
+      goTo(current - 1);
+    });
+    nextBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      loadAllSlides();
+      goTo(current + 1);
     });
 
-    nextBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      goTo(current >= images.length - 1 ? 0 : current + 1);
-    });
-  });
+    /* Auto-slide pauses when user interacts */
+    let autoTimer = null;
+    function startAuto() {
+      stopAuto();
+      autoTimer = setInterval(() => goTo(current + 1), 4000);
+    }
+    function stopAuto() { clearInterval(autoTimer); }
 
-  /* ── Lightbox ── */
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img');
-  const lightboxClose = document.getElementById('lightbox-close');
-  const lightboxPrev = document.getElementById('lightbox-prev');
-  const lightboxNext = document.getElementById('lightbox-next');
+    /* Bind lightbox clicks on all project-imgs in track */
+    function bindLightboxToImages() {
+      track.querySelectorAll('.project-img').forEach(img => {
+        img.addEventListener('click', () => {
+          const card    = img.closest('.project-card');
+          const allSrcs = images;            // use data-images (no DOM scraping)
+          const idx     = Array.from(track.querySelectorAll('.project-img')).indexOf(img);
+          openLightbox(allSrcs, idx >= 0 ? idx : 0);
+        });
+      });
+    }
+
+    /* Viewport observer – load rest + start auto when card visible */
+    const cardObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          loadAllSlides();
+          startAuto();
+        } else {
+          stopAuto();
+        }
+      });
+    }, { threshold: 0.3 });
+    cardObserver.observe(carousel.closest('.project-card'));
+
+    bindLightboxToImages();
+  }
+
+  /* Init all carousels */
+  document.querySelectorAll('.carousel[data-images]').forEach(buildCarousel);
+
+  /* ════════════════════════════════════════════
+     7. LIGHTBOX
+     ════════════════════════════════════════════ */
+  const lightbox        = document.getElementById('lightbox');
+  const lightboxImg     = document.getElementById('lightbox-img');
+  const lightboxClose   = document.getElementById('lightbox-close');
+  const lightboxPrev    = document.getElementById('lightbox-prev');
+  const lightboxNext    = document.getElementById('lightbox-next');
   const lightboxCounter = document.getElementById('lightbox-counter');
-  const lightboxBackdrop = document.getElementById('lightbox-backdrop');
-  const lightboxContent = document.getElementById('lightbox-content');
+  const lightboxBack    = document.getElementById('lightbox-backdrop');
 
-  let currentImages = [];
-  let currentIndex = 0;
+  let lbImages = [];
+  let lbIndex  = 0;
 
-  function openLightbox(images, index) {
-    currentImages = images;
-    currentIndex = index;
-    showImage();
+  function openLightbox(imgs, index) {
+    lbImages = imgs;
+    lbIndex  = index;
+    showLBImage();
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
 
-    // Show/hide nav if only 1 image
-    if (images.length <= 1) {
-      lightboxPrev.classList.add('hidden');
-      lightboxNext.classList.add('hidden');
-      lightboxCounter.classList.add('hidden');
-    } else {
-      lightboxPrev.classList.remove('hidden');
-      lightboxNext.classList.remove('hidden');
-      lightboxCounter.classList.remove('hidden');
-    }
+    const single = imgs.length <= 1;
+    lightboxPrev.classList.toggle('hidden', single);
+    lightboxNext.classList.toggle('hidden', single);
+    lightboxCounter.classList.toggle('hidden', single);
   }
 
-  function showImage() {
+  function showLBImage() {
     lightboxImg.style.animation = 'none';
-    lightboxImg.offsetHeight; // trigger reflow
-    lightboxImg.style.animation = '';
-    lightboxImg.src = currentImages[currentIndex];
-    lightboxCounter.textContent = `${currentIndex + 1} / ${currentImages.length}`;
-    lightboxContent.scrollTop = 0;
+    void lightboxImg.offsetWidth; // force reflow
+    lightboxImg.style.animation = 'lightboxFadeIn 0.3s ease';
+    lightboxImg.src = lbImages[lbIndex];
+    lightboxCounter.textContent = `${lbIndex + 1} / ${lbImages.length}`;
   }
 
   function closeLightbox() {
     lightbox.classList.remove('open');
     document.body.style.overflow = '';
+    lightboxImg.src = '';          // free memory
   }
 
   lightboxClose.addEventListener('click', closeLightbox);
-  lightboxBackdrop.addEventListener('click', closeLightbox);
+  lightboxBack.addEventListener('click', closeLightbox);
 
   lightboxPrev.addEventListener('click', () => {
-    currentIndex = currentIndex <= 0 ? currentImages.length - 1 : currentIndex - 1;
-    showImage();
+    lbIndex = lbIndex <= 0 ? lbImages.length - 1 : lbIndex - 1;
+    showLBImage();
   });
-
   lightboxNext.addEventListener('click', () => {
-    currentIndex = currentIndex >= currentImages.length - 1 ? 0 : currentIndex + 1;
-    showImage();
+    lbIndex = lbIndex >= lbImages.length - 1 ? 0 : lbIndex + 1;
+    showLBImage();
   });
 
-  // Keyboard controls
-  document.addEventListener('keydown', (e) => {
+  document.addEventListener('keydown', e => {
     if (!lightbox.classList.contains('open')) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') lightboxPrev.click();
-    if (e.key === 'ArrowRight') lightboxNext.click();
+    if (e.key === 'Escape')      closeLightbox();
+    if (e.key === 'ArrowLeft')   lightboxPrev.click();
+    if (e.key === 'ArrowRight')  lightboxNext.click();
   });
 
-  // Click image to open lightbox with all images from that project
-  document.querySelectorAll('.project-thumbnail .project-img').forEach(img => {
-    img.style.cursor = 'pointer';
-    img.style.pointerEvents = 'auto';
-    img.addEventListener('click', () => {
-      const card = img.closest('.project-card');
-      const allImgs = Array.from(card.querySelectorAll('.project-img')).map(i => i.src);
-      const clickedIndex = allImgs.indexOf(img.src);
-      openLightbox(allImgs, clickedIndex >= 0 ? clickedIndex : 0);
-    });
-  });
-
-  /* ── Smooth anchor scrolling fallback ── */
+  /* ════════════════════════════════════════════
+     8. SMOOTH ANCHOR SCROLLING
+     ════════════════════════════════════════════ */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', (e) => {
+    anchor.addEventListener('click', e => {
       const target = document.querySelector(anchor.getAttribute('href'));
       if (target) {
         e.preventDefault();
@@ -219,14 +317,5 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-});
 
-/* Fade-in-up keyframe for filter animation */
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes fadeInUp {
-    from { opacity:0; transform:translateY(20px); }
-    to { opacity:1; transform:translateY(0); }
-  }
-`;
-document.head.appendChild(style);
+});

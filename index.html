@@ -95,7 +95,7 @@
 
       <div class="hero-visual animate-on-scroll">
         <div class="hero-image-wrapper">
-          <img src="Profile.jpg" alt="Eisenpol Manalo" class="hero-image">
+          <img src="Profile.png" alt="Eisenpol Manalo" class="hero-image" fetchpriority="high" decoding="async">
           <div class="hero-image-ring"></div>
           <div class="hero-image-dots"></div>
         </div>
@@ -124,7 +124,7 @@
       <div class="about-grid">
         <div class="about-image animate-on-scroll" style="position:relative;">
           <div class="about-image-wrapper">
-            <img src="Profile.jpg" alt="Eisenpol Manalo" style="width:100%;height:100%;object-fit:cover;">
+            <img src="Profile.png" alt="Eisenpol Manalo" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;">
           </div>
           <div class="about-experience-badge">
             <span class="badge-number">🎓</span>
@@ -200,10 +200,8 @@
         <!-- ── PROJECT CARD 1: Build IT (1 image) ── -->
         <article class="project-card animate-on-scroll" data-category="web">
           <div class="project-thumbnail">
-            <div class="carousel">
-              <div class="carousel-track">
-                <img src="BUILD IT - PC Shopping and Effortless Hardware Selection/Frame 1.png" alt="Build IT Mockup" class="project-img" loading="lazy">
-              </div>
+            <div class="carousel" data-images='["BUILD IT - PC Shopping and Effortless Hardware Selection/Frame 1.png"]' data-alts='["Build IT Mockup"]'>
+              <div class="carousel-track"></div>
             </div>
           </div>
           <div class="project-info">
@@ -221,14 +219,10 @@
         <!-- ── PROJECT CARD 2: TrackTory (5 images) ── -->
         <article class="project-card animate-on-scroll" data-category="web">
           <div class="project-thumbnail">
-            <div class="carousel">
-              <div class="carousel-track">
-                <img src="TrackTory - Inventory Management System for Almendarez Trading/Mock Up page.png" alt="TrackTory Mockup" class="project-img" loading="lazy">
-                <img src="TrackTory - Inventory Management System for Almendarez Trading/Other Pages - 1.png" alt="TrackTory Pages 1" class="project-img" loading="lazy">
-                <img src="TrackTory - Inventory Management System for Almendarez Trading/Other Pages - 2.png" alt="TrackTory Pages 2" class="project-img" loading="lazy">
-                <img src="TrackTory - Inventory Management System for Almendarez Trading/Other Pages - 3.png" alt="TrackTory Pages 3" class="project-img" loading="lazy">
-                <img src="TrackTory - Inventory Management System for Almendarez Trading/Other Pages - 4.png" alt="TrackTory Pages 4" class="project-img" loading="lazy">
-              </div>
+            <div class="carousel"
+              data-images='["TrackTory - Inventory Management System for Almendarez Trading/Mock Up page.png","TrackTory - Inventory Management System for Almendarez Trading/Other Pages - 1.png","TrackTory - Inventory Management System for Almendarez Trading/Other Pages - 2.png","TrackTory - Inventory Management System for Almendarez Trading/Other Pages - 3.png","TrackTory - Inventory Management System for Almendarez Trading/Other Pages - 4.png"]'
+              data-alts='["TrackTory Mockup","TrackTory Pages 1","TrackTory Pages 2","TrackTory Pages 3","TrackTory Pages 4"]'>
+              <div class="carousel-track"></div>
               <button class="carousel-btn carousel-prev" aria-label="Previous"><i class="ph ph-caret-left"></i></button>
               <button class="carousel-btn carousel-next" aria-label="Next"><i class="ph ph-caret-right"></i></button>
               <div class="carousel-dots"></div>
@@ -249,11 +243,10 @@
         <!-- ── PROJECT CARD 3: Sari-Sari (2 images) ── -->
         <article class="project-card animate-on-scroll" data-category="mobile">
           <div class="project-thumbnail">
-            <div class="carousel">
-              <div class="carousel-track">
-                <img src="Sari - Sari - E-Commerce app with a minimalist design/1st Page.png" alt="Sari-Sari Page 1" class="project-img" loading="lazy">
-                <img src="Sari - Sari - E-Commerce app with a minimalist design/2nd Page.png" alt="Sari-Sari Page 2" class="project-img" loading="lazy">
-              </div>
+            <div class="carousel"
+              data-images='["Sari - Sari - E-Commerce app with a minimalist design/1st Page.png","Sari - Sari - E-Commerce app with a minimalist design/2nd Page.png"]'
+              data-alts='["Sari-Sari Page 1","Sari-Sari Page 2"]'>
+              <div class="carousel-track"></div>
               <button class="carousel-btn carousel-prev" aria-label="Previous"><i class="ph ph-caret-left"></i></button>
               <button class="carousel-btn carousel-next" aria-label="Next"><i class="ph ph-caret-right"></i></button>
               <div class="carousel-dots"></div>
@@ -274,11 +267,10 @@
         <!-- ── PROJECT CARD 4: Tracky (2 images) ── -->
         <article class="project-card animate-on-scroll" data-category="mobile">
           <div class="project-thumbnail">
-            <div class="carousel">
-              <div class="carousel-track">
-                <img src="Tracky - Inventory Management System for Food and Beverages with Expiration Tracking/Mockup Page.png" alt="Tracky Mockup" class="project-img" loading="lazy">
-                <img src="Tracky - Inventory Management System for Food and Beverages with Expiration Tracking/Other Pages.png" alt="Tracky Other Pages" class="project-img" loading="lazy">
-              </div>
+            <div class="carousel"
+              data-images='["Tracky - Inventory Management System for Food and Beverages with Expiration Tracking/Mockup Page.png","Tracky - Inventory Management System for Food and Beverages with Expiration Tracking/Other Pages.png"]'
+              data-alts='["Tracky Mockup","Tracky Other Pages"]'>
+              <div class="carousel-track"></div>
               <button class="carousel-btn carousel-prev" aria-label="Previous"><i class="ph ph-caret-left"></i></button>
               <button class="carousel-btn carousel-next" aria-label="Next"><i class="ph ph-caret-right"></i></button>
               <div class="carousel-dots"></div>
@@ -299,11 +291,10 @@
         <!-- ── PROJECT CARD 5: UV Express Booker (2 images) ── -->
         <article class="project-card animate-on-scroll" data-category="mobile">
           <div class="project-thumbnail">
-            <div class="carousel">
-              <div class="carousel-track">
-                <img src="UV Express Booker/01.png" alt="UV Express Booker Mockup 1" class="project-img" loading="lazy">
-                <img src="UV Express Booker/2.png" alt="UV Express Booker Mockup 2" class="project-img" loading="lazy">
-              </div>
+            <div class="carousel"
+              data-images='["UV Express Booker/01.png","UV Express Booker/2.png"]'
+              data-alts='["UV Express Booker Mockup 1","UV Express Booker Mockup 2"]'>
+              <div class="carousel-track"></div>
               <button class="carousel-btn carousel-prev" aria-label="Previous"><i class="ph ph-caret-left"></i></button>
               <button class="carousel-btn carousel-next" aria-label="Next"><i class="ph ph-caret-right"></i></button>
               <div class="carousel-dots"></div>
