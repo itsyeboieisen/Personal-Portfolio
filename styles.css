@@ -60,7 +60,8 @@ input, textarea { font-family:inherit; }
 
 /* Real image styles */
 .hero-image {
-  width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:50%;
+  width:100%; height:100%; object-fit:cover; object-position:center 15%; border-radius:50%;
+  transform:scale(1.3);
 }
 .project-img {
   width:100%; height:100%; object-fit:cover; display:block;
@@ -176,7 +177,7 @@ input, textarea { font-family:inherit; }
 .stat-label { font-size:0.82rem; color:var(--text-muted); }
 
 .hero-visual { display:flex; justify-content:center; align-items:center; }
-.hero-image-wrapper { position:relative; width:340px; height:340px; }
+.hero-image-wrapper { position:relative; width:340px; height:340px; overflow:hidden; border-radius:50%; }
 .hero-image-placeholder {
   width:100%; height:100%; border-radius:50%;
   background:var(--bg-card); border:2px dashed var(--border-accent);
