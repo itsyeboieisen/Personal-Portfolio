@@ -90,15 +90,52 @@ export const portfolioData = {
   ],
   projects: [
     {
-      id: "build-it",
-      category: "web",
-      isFeatured: true,
-      badgeText: "Web Design • Featured Showcase",
-      title: "Build IT",
-      desc: "A PC shopping website designed for effortless hardware selection, helping users build their dream rig with an intuitive browsing experience and streamlined component filtering.",
-      tags: ["E-Commerce", "Web Design", "UI Design", "Hardware Configurator"],
+      id: "nesta",
+      category: "mobile",
+      badgeText: "Mobile App • In Progress",
+      title: "NESTA",
+      desc: "A smart home control app designed to make managing connected devices simple, convenient, and accessible from anywhere — monitor and adjust smart lights, speakers, and more remotely.",
+      tags: ["Smart Home", "Mobile", "IoT", "UI Design"],
+      isInProgress: true,
       images: [
-        "/BUILD IT - PC Shopping and Effortless Hardware Selection/Frame 1.jpg"
+        "/NESTA - Smart Home App/Frame 1.png",
+        "/NESTA - Smart Home App/Frame 2.png"
+      ]
+    },
+    {
+      id: "uv-express",
+      category: "mobile",
+      badgeText: "Mobile App",
+      title: "UV Express Booker",
+      desc: "A ride-booking mobile app for UV Express commuters, providing convenient route selection, seat reservation, and real-time trip updates.",
+      tags: ["Transport", "Mobile", "Booking"],
+      images: [
+        "/UV Express Booker/01.jpg",
+        "/UV Express Booker/2.jpg"
+      ]
+    },
+    {
+      id: "tracky",
+      category: "mobile",
+      badgeText: "Mobile App",
+      title: "Tracky",
+      desc: "A food and beverages inventory management system with expiration tracking, ensuring freshness and reducing waste through smart alerts.",
+      tags: ["Inventory", "Mobile", "Tracking"],
+      images: [
+        "/Tracky - Inventory Management System for Food and Beverages with Expiration Tracking/Mockup Page.jpg",
+        "/Tracky - Inventory Management System for Food and Beverages with Expiration Tracking/Other Pages.jpg"
+      ]
+    },
+    {
+      id: "sari-sari",
+      category: "mobile",
+      badgeText: "Mobile App",
+      title: "Sari-Sari",
+      desc: "An e-commerce mobile application with a minimalist design approach, making everyday shopping simple and delightful.",
+      tags: ["E-Commerce", "Mobile", "Minimalist"],
+      images: [
+        "/Sari - Sari - E-Commerce app with a minimalist design/1st Page.jpg",
+        "/Sari - Sari - E-Commerce app with a minimalist design/2nd Page.jpg"
       ]
     },
     {
@@ -119,39 +156,15 @@ export const portfolioData = {
       ]
     },
     {
-      id: "sari-sari",
-      category: "mobile",
-      badgeText: "Mobile App",
-      title: "Sari-Sari",
-      desc: "An e-commerce mobile application with a minimalist design approach, making everyday shopping simple and delightful.",
-      tags: ["E-Commerce", "Mobile", "Minimalist"],
+      id: "build-it",
+      category: "web",
+      isFeatured: true,
+      badgeText: "Web Design • Featured Showcase",
+      title: "Build IT",
+      desc: "A PC shopping website designed for effortless hardware selection, helping users build their dream rig with an intuitive browsing experience and streamlined component filtering.",
+      tags: ["E-Commerce", "Web Design", "UI Design", "Hardware Configurator"],
       images: [
-        "/Sari - Sari - E-Commerce app with a minimalist design/1st Page.jpg",
-        "/Sari - Sari - E-Commerce app with a minimalist design/2nd Page.jpg"
-      ]
-    },
-    {
-      id: "tracky",
-      category: "mobile",
-      badgeText: "Mobile App",
-      title: "Tracky",
-      desc: "A food and beverages inventory management system with expiration tracking, ensuring freshness and reducing waste through smart alerts.",
-      tags: ["Inventory", "Mobile", "Tracking"],
-      images: [
-        "/Tracky - Inventory Management System for Food and Beverages with Expiration Tracking/Mockup Page.jpg",
-        "/Tracky - Inventory Management System for Food and Beverages with Expiration Tracking/Other Pages.jpg"
-      ]
-    },
-    {
-      id: "uv-express",
-      category: "mobile",
-      badgeText: "Mobile App",
-      title: "UV Express Booker",
-      desc: "A ride-booking mobile app for UV Express commuters, providing convenient route selection, seat reservation, and real-time trip updates.",
-      tags: ["Transport", "Mobile", "Booking"],
-      images: [
-        "/UV Express Booker/01.jpg",
-        "/UV Express Booker/2.jpg"
+        "/BUILD IT - PC Shopping and Effortless Hardware Selection/Frame 1.jpg"
       ]
     }
   ]

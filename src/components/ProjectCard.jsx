@@ -2,7 +2,7 @@ import React from 'react';
 import { ProjectCarousel } from './ProjectCarousel';
 
 export const ProjectCard = React.memo(({ project, onImageClick }) => {
-  const { isFeatured, isReverse, category, badgeText, title, desc, tags, images } = project;
+  const { isFeatured, isReverse, isInProgress, category, badgeText, title, desc, tags, images } = project;
 
   return (
     <article
@@ -15,6 +15,12 @@ export const ProjectCard = React.memo(({ project, onImageClick }) => {
           projectTitle={title}
           onImageClick={onImageClick}
         />
+        {isInProgress && (
+          <div className="project-wip-badge">
+            <span className="wip-dot"></span>
+            Work in Progress
+          </div>
+        )}
       </div>
       <div className="project-info">
         <span className="project-category">{badgeText}</span>
